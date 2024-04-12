@@ -4,9 +4,11 @@
             <div class="profile" :style="{ backgroundImage: `url(${InstaData.userImage})` }"></div>
             <span class="profile-name">{{ InstaData.name }}</span>
         </div>
-        <div class="post-body" :style="{ backgroundImage: `url(${InstaData.postImage})` }"></div>
+        <!-- :class="InstaData.filter" -->
+        <div class="post-body" @click="$store.commit('like')" :class="filterClass" :style="{ backgroundImage: `url(${InstaData.postImage})` }"></div>
         <div class="post-content">
-            <p>{{ InstaData.likes }}</p>
+            <!-- <p>{{ InstaData.likes }}</p> -->
+            <p>{{ $store.state.likes }}</p>
             <p>
                 <strong>{{ InstaData.name }}</strong> {{ InstaData.content }}
             </p>
@@ -20,6 +22,7 @@ export default {
     name: "PostView",
     props: {
         InstaData: Array,
+        filterClass: String,
     },
 };
 </script>

@@ -4,18 +4,27 @@
             <li>Cancel</li>
         </ul>
         <ul class="header-button-right">
-            <li>Next</li>
+            <li v-if="TabIndex == 1" @click="TabIndex = '2'">Next</li>
+            <li v-if="TabIndex == 2" @click="Publish()">Publish</li>
         </ul>
         <img src="./assets/logo.png" class="logo" />
     </div>
 
-    <ContainerView :InstaData="InstaData" :TabIndex="TabIndex" />
+    <!--  Vuex / store.js를 사용해서 할 시 데이터를 직접 수정하면 안됨 -->
+    <!-- <button @click="$store.state.name = 'daseul'">이름 바꾸기</button> -->
+    <h4>Hello {{ $store.state.name }}</h4>
+    <button @click="$store.commit('nameChange')">이름 바꾸기</button>
+
+    <h4>내 나이는: {{ $store.state.age }}</h4>
+    <button @click="$store.commit('ageChange', 10)">숫자 올리기</button>
+
+    <ContainerView :filterClass="filterClass" @myContentData="UploadTxt = $event" :InstaData="InstaData" :TabIndex="TabIndex" :UploadImg="UploadImg" />
 
     <button @click="moreView">더보기</button>
 
     <div class="footer">
         <ul class="footer-button-plus">
-            <input type="file" id="file" class="inputfile" />
+            <input @change="FileLoad" type="file" id="file" class="inputfile" />
             <label for="file" class="input-plus">+</label>
         </ul>
     </div>
@@ -43,10 +52,37 @@ export default {
             InstaData: InstaData,
             ClickNum: 0,
             TabIndex: 0,
-            // Step: 0,
+            UploadImg: " ",
+            UploadTxt: " ",
+            filterClass: " ",
         };
     },
+    mounted() {
+        this.emitter.on("filterChange", (filterName) => {
+            this.filterClass = filterName;
+        });
+    },
     methods: {
+        FileLoad(event) {
+            let uploadFile = event.target.files;
+            this.TabIndex++;
+            this.UploadImg = URL.createObjectURL(uploadFile[0]);
+            console.log(this.UploadImg);
+        },
+        Publish() {
+            let myContent = {
+                name: "Kim Hyun",
+                userImage: "https://placeimg.com/100/100/arch",
+                postImage: this.UploadImg,
+                likes: 36,
+                date: "May 15",
+                liked: false,
+                content: this.UploadTxt,
+                filter: this.filterClass,
+            };
+            this.InstaData.unshift(myContent);
+            this.TabIndex = 0;
+        },
         moreView() {
             axios.get(`https://codingapple1.github.io/vue/more${this.ClickNum}.json`).then((result) => {
                 // 요청성공시 실행할 코드
@@ -54,7 +90,6 @@ export default {
                 this.InstaData.push(result.data);
                 this.ClickNum += 1;
             });
-
             // axios
             //     .post("URL", { name: "kim" })
             //     .then(() => {
