@@ -10,9 +10,9 @@
             <!-- <p>{{ InstaData.likes }}</p> -->
             <!-- <p v-for="like in likes" :key="like">{{ $store.state.likes }}</p> -->
             <p>
-                <span v-for="InstaData in InstaData" :key="InstaData">
-                    {{ InstaData }}
-                </span>
+                <!-- <span v-for="InstaData in InstaData" :key="InstaData"> -->
+                {{ $store.state.likes }}
+                <!-- </span> -->
             </p>
             <p>
                 <strong>{{ InstaData.name }}</strong> {{ InstaData.content }}

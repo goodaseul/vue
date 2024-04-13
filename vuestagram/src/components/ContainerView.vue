@@ -18,6 +18,10 @@
                 <!-- /* 타이핑한 글 > $event.target.value */ -->
             </div>
         </div>
+
+        <div v-if="TabIndex == 3" class="wrap">
+            <MypageView :one="1" />
+        </div>
     </div>
 </template>
 
@@ -25,6 +29,7 @@
 import PostView from "./PostView.vue";
 import FilterBox from "./FilterBox.vue";
 import filters from "../assets/data/filter.js";
+import MypageView from "./MypageView.vue";
 
 export default {
     name: "ContainerView",
@@ -36,6 +41,7 @@ export default {
     components: {
         PostView,
         FilterBox,
+        MypageView,
     },
     props: {
         InstaData: Array,

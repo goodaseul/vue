@@ -9,14 +9,27 @@
         </ul>
         <img src="./assets/logo.png" class="logo" />
     </div>
+    <p>{{ name }} {{ age }} {{ likes }}</p>
+    <!-- <p>{{ now2 }} {{ counter }}</p>
+    <button @click="counter++">now 실행 버튼</button> -->
 
     <!--  Vuex / store.js를 사용해서 할 시 데이터를 직접 수정하면 안됨 -->
     <!-- <button @click="$store.state.name = 'daseul'">이름 바꾸기</button> -->
+    <!-- <h4>Hello {{ $store.state.name }}</h4> -->
+    <!-- <button @click="$store.commit('nameChange')">이름 바꾸기</button> -->
+
     <h4>Hello {{ $store.state.name }}</h4>
-    <button @click="$store.commit('nameChange')">이름 바꾸기</button>
+    <button @click="nameChange">이름 바꾸기</button>
 
     <h4>내 나이는: {{ $store.state.age }}</h4>
-    <button @click="$store.commit('ageChange', 10)">숫자 올리기</button>
+    <!-- <button @click="$store.commit('ageChange', 10)">숫자 올리기</button> -->
+    <button @click="ageChange(10)">숫자 올리기</button>
+
+    <p>
+        {{ $store.state.more }}
+    </p>
+
+    <button @click="$store.dispatch('dataPull')">action 더보기</button>
 
     <ContainerView :filterClass="filterClass" @myContentData="UploadTxt = $event" :InstaData="InstaData" :TabIndex="TabIndex" :UploadImg="UploadImg" />
 
@@ -43,6 +56,8 @@
 import InstaData from "./assets/data/instadata.js";
 import ContainerView from "./components/ContainerView.vue";
 import axios from "axios";
+import { mapMutations, mapState } from "vuex";
+
 axios.post();
 
 export default {
@@ -51,10 +66,11 @@ export default {
         return {
             InstaData: InstaData,
             ClickNum: 0,
-            TabIndex: 0,
+            TabIndex: 3,
             UploadImg: " ",
             UploadTxt: " ",
             filterClass: " ",
+            counter: 0,
         };
     },
     mounted() {
@@ -62,7 +78,22 @@ export default {
             this.filterClass = filterName;
         });
     },
+    computed: {
+        name() {
+            return this.$store.state.name;
+        },
+        // vuex state 한번에 꺼내쓰려면
+        ...mapState(["name", "age", "likes"]),
+        // ...mapState({ 작명: 'name', }),
+        // now2() {
+        //     return new Date();
+        // },
+    },
     methods: {
+        // now() {
+        //     return new Date();
+        // },
+        ...mapMutations(["setMore", "nameChange", "ageChange"]),
         FileLoad(event) {
             let uploadFile = event.target.files;
             this.TabIndex++;

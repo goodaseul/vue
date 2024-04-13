@@ -1,15 +1,20 @@
 import { createStore } from "vuex";
+import axios from "axios";
 
 const store = createStore({
     state() {
         return {
             name: "Jeong",
             age: 20,
-            likes: [30, 40, 50],
-            clickLike: [false, false, false],
+            likes: 30,
+            clickLike: false,
+            more: {},
         };
     },
     mutations: {
+        setMore(state, data) {
+            state.more = data;
+        },
         nameChange(state) {
             state.name = "Jisoo";
         },
@@ -24,6 +29,15 @@ const store = createStore({
                 state.likes++;
                 state.clickLike = true;
             }
+        },
+    },
+    actions: {
+        dataPull(context) {
+            axios.get("https://codingapple1.github.io/vue/more0.json").then((instadata) => {
+                // console.log(instadata.data);
+                context.commit("setMore", instadata.data);
+                // context == $store
+            });
         },
     },
 });
