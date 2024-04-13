@@ -8,7 +8,12 @@
         <div class="post-body" @click="$store.commit('like')" :class="filterClass" :style="{ backgroundImage: `url(${InstaData.postImage})` }"></div>
         <div class="post-content">
             <!-- <p>{{ InstaData.likes }}</p> -->
-            <p>{{ $store.state.likes }}</p>
+            <!-- <p v-for="like in likes" :key="like">{{ $store.state.likes }}</p> -->
+            <p>
+                <span v-for="InstaData in InstaData" :key="InstaData">
+                    {{ InstaData }}
+                </span>
+            </p>
             <p>
                 <strong>{{ InstaData.name }}</strong> {{ InstaData.content }}
             </p>

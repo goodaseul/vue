@@ -5,8 +5,8 @@ const store = createStore({
         return {
             name: "Jeong",
             age: 20,
-            likes: 30,
-            standard: 30,
+            likes: [30, 40, 50],
+            clickLike: [false, false, false],
         };
     },
     mutations: {
@@ -17,10 +17,12 @@ const store = createStore({
             state.age += payload;
         },
         like(state) {
-            if (this.standard < state.likes) {
-                state.likes -= 1;
+            if (state.clickLike == true) {
+                state.likes--;
+                state.clickLike = false;
             } else {
                 state.likes++;
+                state.clickLike = true;
             }
         },
     },
