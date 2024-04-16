@@ -6,20 +6,21 @@
         </div>
         <!-- 필터선택페이지 -->
         <div v-if="tabNum == 1">
-            <div class="upload-image" :style="{ backgroundImage: `url(${blobImg})` }"></div>
+            <div :class="`upload-image ${makeFilter}`" :style="` background-image: url(${blobImg})`"></div>
             <div class="filters">
-                <div class="filter-1"></div>
-                <div class="filter-1"></div>
-                <div class="filter-1"></div>
-                <div class="filter-1"></div>
-                <div class="filter-1"></div>
+                <!-- filter component -->
+                <FilterBox :blobImg="blobImg" v-for="(filters, index) in filters" :key="index" :filters="filters">
+                    <!-- <template v-slot:filterName> -->
+                    {{ filters }}
+                    <!-- </template> -->
+                </FilterBox>
             </div>
         </div>
         <!-- 글작성페이지 -->
         <div v-if="tabNum == 2">
-            <div class="upload-image" :style="{ backgroundImage: `url(${blobImg})` }"></div>
+            <div :class="`upload-image  ${makeFilter}`" :style="{ backgroundImage: `url(${blobImg})` }"></div>
             <div class="write">
-                <textarea class="write-box">write!</textarea>
+                <textarea class="write-box" @input="$emit('writingSend', $event.target.value)">Write!</textarea>
             </div>
         </div>
     </div>
@@ -27,15 +28,24 @@
 
 <script>
 import Post from "./Post.vue";
+import FilterBox from "./FilterBox.vue";
+
 export default {
     name: "ContainerView",
+    data() {
+        return {
+            filters: ["aden", "_1977", "brannan", "brooklyn", "clarendon", "earlybird", "gingham", "hudson", "inkwell", "kelvin", "lark", "lofi", "maven", "mayfair", "moon", "nashville", "perpetua", "reyes", "rise", "slumber", "stinson", "toaster", "valencia", "walden", "willow", "xpro2"],
+        };
+    },
     props: {
         instaData: Array,
         tabNum: Number,
         blobImg: Image,
+        makeFilter: String,
     },
     components: {
         Post,
+        FilterBox,
     },
 };
 </script>

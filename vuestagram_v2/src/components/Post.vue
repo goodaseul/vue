@@ -4,9 +4,10 @@
             <div class="profile" :style="{ backgroundImage: `url(${instaData.userImage})` }"></div>
             <span class="profile-name">{{ instaData.name }}</span>
         </div>
-        <div class="post-body" :style="{ backgroundImage: `url(${instaData.postImage})` }"></div>
+        <div @click="$store.commit('likeActive', instaData.length)" :class="`post-body ${instaData.filter}`" :style="{ backgroundImage: `url(${instaData.postImage})` }"></div>
         <div class="post-content">
-            <p>{{ instaData.likes }} Likes</p>
+            <!-- <p>{{ instaData.likes }} Likes</p> -->
+            <p>{{ $store.state.likes }} Likes</p>
             <p>
                 <strong>{{ instaData.name }}</strong> {{ instaData.content }}
             </p>
