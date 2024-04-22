@@ -2,7 +2,7 @@
     <div>
         <!-- 게시물들 -->
         <div v-if="tabNum == 0">
-            <Post :instaData="instaData" v-for="instaData in instaData" :key="instaData" />
+            <Post :instaIndex="(instaIndex = index)" :instaData="instaData" v-for="(instaData, index) in instaData" :key="index" />
         </div>
         <!-- 필터선택페이지 -->
         <div v-if="tabNum == 1">
@@ -23,18 +23,25 @@
                 <textarea class="write-box" @input="$emit('writingSend', $event.target.value)">Write!</textarea>
             </div>
         </div>
+
+        <!-- 팔로워 -->
+        <div v-if="tabNum == 3">
+            <MyPage :one="1" />
+        </div>
     </div>
 </template>
 
 <script>
 import Post from "./Post.vue";
 import FilterBox from "./FilterBox.vue";
+import MyPage from "./MyPage.vue";
 
 export default {
     name: "ContainerView",
     data() {
         return {
             filters: ["aden", "_1977", "brannan", "brooklyn", "clarendon", "earlybird", "gingham", "hudson", "inkwell", "kelvin", "lark", "lofi", "maven", "mayfair", "moon", "nashville", "perpetua", "reyes", "rise", "slumber", "stinson", "toaster", "valencia", "walden", "willow", "xpro2"],
+            instaIndex: 0,
         };
     },
     props: {
@@ -46,6 +53,7 @@ export default {
     components: {
         Post,
         FilterBox,
+        MyPage,
     },
 };
 </script>

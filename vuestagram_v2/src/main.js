@@ -10,4 +10,6 @@ app.config.globalProperties.emitter = emitter;
 //vuex
 import store from "./store.js";
 
+import './registerServiceWorker'
+
 app.use(store).mount("#app");
